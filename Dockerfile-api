@@ -1,0 +1,42 @@
+# Use a imagem base do SDK .NET 6.0 para construção da API
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-api
+WORKDIR /app-api
+
+# Copie e restaure as dependências da API .NET
+COPY hahncargosim/HahnCargoSim.csproj .
+RUN dotnet restore
+
+# Copie todos os arquivos e compile a API .NET
+COPY hahncargosim .
+RUN dotnet publish -c Release -o out
+
+# Estágio de construção do Angular
+FROM node:latest AS build-angular
+WORKDIR /app-angular
+
+# Copie os arquivos de configuração e restaure as dependências do Angular
+COPY hahncargosimng/package.json hahncargosimng/package-lock.json ./
+RUN npm install
+
+# Copie todos os arquivos e compile o projeto Angular
+COPY hahncargosimng .
+RUN npm run build
+
+# Estágio de preparação para a execução
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+WORKDIR /app
+
+# Copie os arquivos da API .NET compilada
+COPY --from=build-api /app-api/out ./MyApi
+# Copie os arquivos do Angular compilado
+COPY --from=build-angular /app-angular/dist ./MyAngularApp
+
+# Exponha a porta para a API .NET
+EXPOSE 80
+
+# Execute o ng serve para iniciar o servidor de desenvolvimento do Angular
+CMD ["npm", "run", "start"]
+
+# Comando de entrada para a execução da API .NET
+CMD ["dotnet", "MyApi/HahnCargoSim.dll"]
+

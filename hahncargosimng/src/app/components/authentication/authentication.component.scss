@@ -1,0 +1,38 @@
+.authentication-card {
+  display: flex;
+  max-width: 25rem;
+  margin: auto;
+  align-items: center;
+  background:linear-gradient(135deg, #CE9FFC 0%,#7367F0 100%);
+  padding: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+  align-self: center;
+}
+
+mat-divider {
+  width: 100%;
+  margin: 1rem;
+}
+
+mat-form-field{
+  background: none;
+  border-radius: 20%;
+  width: 100%;
+  font-size: 16px;
+}
+
+button{
+  font-size: 16pt;
+  font-weight: 300;
+  padding: 1.2rem 2rem;
+  background-color: #b14fcf;
+  border-radius: 10px;
+  border: none;
+  color: white;
+}
+
+main{
+  display: flex;
+  align-items: center;
+}

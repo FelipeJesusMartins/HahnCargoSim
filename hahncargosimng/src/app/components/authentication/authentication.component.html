@@ -1,0 +1,28 @@
+<main>
+  <mat-card class="authentication-card">
+    <mat-card-header>
+      <mat-card-title>Hahn Cargo Sim</mat-card-title>
+      <mat-card-subtitle>Enter with your user and password</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+
+      <mat-form-field>
+        <mat-label>User</mat-label>
+        <input matInput placeholder="Username" [name]="User" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="*****" type="password" ([ngModel])="Password"/>
+      </mat-form-field>
+
+      <br />
+
+      <button *ngIf="ShowButton" (click)="loginClick()"> Next </button>
+
+    </mat-card-content>
+  </mat-card>
+</main>

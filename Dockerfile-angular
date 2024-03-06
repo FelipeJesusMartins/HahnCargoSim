@@ -1,0 +1,19 @@
+# Estágio de construção do Angular
+FROM node:latest AS build
+WORKDIR /app-angular
+
+# Copie os arquivos de configuração e restaure as dependências do Angular
+COPY hahncargosimng/package.json hahncargosimng/package-lock.json ./
+RUN npm install
+
+# Copie todo o código-fonte do projeto Angular
+COPY hahncargosimng .
+RUN npm run build
+
+# Estágio de preparação para a execução
+FROM nginx:latest AS runtime
+WORKDIR /usr/share/nginx/html
+COPY --from=build /app-angular/dist .
+
+# Exponha a porta 4200 para o Angular (opcional, se desejar)
+EXPOSE 4200
